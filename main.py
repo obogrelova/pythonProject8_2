@@ -1,4 +1,6 @@
 import pandas as pd
+import matplotlib.pyplot as plt
+
 
 data = {
     'Name' : ['Jack', 'Eric', 'Alice', 'Kevin', 'Harry', 'Jesse', 'Bob', 'Roma', 'Darren', 'Anna'],
@@ -33,3 +35,21 @@ print(f"Средняя оценка по истории - {df['Story_grade'].mea
 print(f"Медианная оценка по истории - {df['Story_grade'].median()}")
 print(f"Стандартное отклонение оценки по истории - {df['Story_grade'].std()}")
 
+
+data_2 = {'Mathematics_grade' : [5, 4, 4, 5, 3, 5, 5, 4, 4, 3]}
+df = pd.DataFrame(data_2)
+
+df.boxplot(column='Mathematics_grade')
+plt.show()
+
+Q1 = df['Mathematics_grade'].quantile(0.25)
+Q3 = df['Mathematics_grade'].quantile(0.75)
+IQR = Q3 - Q1
+
+downside = Q1 - 1.5 * IQR
+upside = Q3 + 1.5 * IQR
+
+df_new = df[(df['Mathematics_grade'] >= downside) & (df['Mathematics_grade'] <= upside)]
+
+df_new.boxplot(column='Mathematics_grade')
+plt.show()
